@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, ApiResponse } from '../../services/api.service';
 import { NgIf, NgFor } from '@angular/common';
-
+import { AnswerButtonComponent } from '../templates/button/button.component';
 
 function decodeHtml(html: string): string {
   const txt = document.createElement("textarea");
@@ -14,32 +14,63 @@ function decodeHtml(html: string): string {
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.css'],
-  imports: [NgIf, NgFor]
+  imports: [NgIf, NgFor, AnswerButtonComponent]
 })
 export class QuizComponent implements OnInit {
   questions: any[] = [];
   errorMessage: string | null = null;
+  currentQuestionIndex: number = 0;
+  selectedAnswerIndex: number | null = null;
+  correctAnswersCount: number = 0;
+  isAnswered: boolean = false;
+  shuffledAnswers: string[] = [];
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-      this.loadQuestions();
+    this.loadQuestions();
   }
 
   loadQuestions(): void {
-      this.apiService.getQuestions().subscribe({
-          next: (data: ApiResponse) => {
-              this.questions = data.results;
-              console.log('Questions récupérées :', this.questions);
-          },
-          error: (error) => {
-              this.errorMessage = 'Erreur lors du chargement des questions.';
-              console.error('Erreur API :', error);
-          }
-      });
+    this.apiService.getQuestions().subscribe({
+      next: (data: ApiResponse) => {
+        this.questions = data.results;
+        this.shuffleAnswers();
+      },
+      error: (error) => {
+        this.errorMessage = 'Erreur lors du chargement des questions.';
+        console.error('Erreur API :', error);
+      }
+    });
+  }
+
+  shuffleAnswers(): void {
+    if (this.questions.length > 0) {
+      const currentQuestion = this.questions[this.currentQuestionIndex];
+      this.shuffledAnswers = [...currentQuestion.incorrect_answers, currentQuestion.correct_answer]
+        .sort(() => Math.random() - 0.5);
+    }
   }
 
   decodeText(text: string): string {
-      return decodeHtml(text);
+    return decodeHtml(text);
+  }
+
+  selectAnswer(index: number, answer: string): void {
+    if (this.isAnswered) return;
+    this.selectedAnswerIndex = index;
+    this.isAnswered = true;
+    if (answer === this.questions[this.currentQuestionIndex].correct_answer) {
+      this.correctAnswersCount++;
+    }
+  }
+
+  nextQuestion(): void {
+    if (this.currentQuestionIndex < this.questions.length - 1) {
+      this.currentQuestionIndex++;
+      this.selectedAnswerIndex = null;
+      this.isAnswered = false;
+      this.shuffleAnswers();
+    }
   }
 }
