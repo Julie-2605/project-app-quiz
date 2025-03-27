@@ -19,7 +19,7 @@ export interface QuizQuestion {
 
 @Injectable({ providedIn: 'root' }) // ✅ Singleton global
 export class ApiService {
-  private readonly API_URL = "https://opentdb.com/api.php?amount=10"; // ✅ Privé + readonly
+  private readonly API_URL = "https://opentdb.com/api.php?amount=10&type=multiple"; // ✅ Privé + readonly
 
   constructor(private http: HttpClient) {} // ✅ Injection correcte
 

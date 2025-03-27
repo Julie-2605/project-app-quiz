@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService, ApiResponse } from '../../services/api.service';
 import { NgIf, NgFor } from '@angular/common';
 import { AnswerButtonComponent } from '../templates/button/button.component';
+import { HeroComponent } from '../templates/hero/hero.component';
+
 
 function decodeHtml(html: string): string {
   const txt = document.createElement("textarea");
@@ -14,7 +16,7 @@ function decodeHtml(html: string): string {
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.css'],
-  imports: [NgIf, NgFor, AnswerButtonComponent]
+  imports: [NgIf, NgFor, AnswerButtonComponent, HeroComponent]
 })
 export class QuizComponent implements OnInit {
   questions: any[] = [];
