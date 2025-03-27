@@ -17,15 +17,38 @@ export interface QuizQuestion {
   incorrect_answers: string[];
 }
 
-@Injectable({ providedIn: 'root' }) // ✅ Singleton global
+@Injectable({ providedIn: 'root' })
 export class ApiService {
-  private readonly API_URL = "https://opentdb.com/api.php?amount=10&type=multiple"; // ✅ Privé + readonly
+  private readonly BASE_URL = "https://opentdb.com/api.php";
 
-  constructor(private http: HttpClient) {} // ✅ Injection correcte
+  constructor(private http: HttpClient) {}
 
-  getQuestions(): Observable<ApiResponse> { // ✅ Bon typage
-    return this.http.get<ApiResponse>(this.API_URL).pipe(
-      catchError(this.handleError) // ✅ Gestion d'erreurs
+  setConfig(config : any) {
+    let apiURL = `${this.BASE_URL}?amount=${config['nbr-questions']}`;
+
+    if (config.category !== 'any') {
+      apiURL += `&category=${config.category}`;
+    }
+
+    if (config.difficulty !== 'any') {
+      apiURL += `&difficulty=${config.difficulty}`;
+    }
+
+    if (config.type !== 'any') {
+      apiURL += `&type=${config.type}`;
+    }
+
+    localStorage.setItem('apiURL', apiURL);
+  }
+
+  getQuestions(): Observable<ApiResponse> {
+    const url = localStorage.getItem('apiURL');
+    if (!url) {
+      return throwError(() => new Error('URL non configurée.'));
+    }
+
+    return this.http.get<ApiResponse>(url).pipe(
+      catchError(this.handleError)
     );
   }
 
