@@ -26,7 +26,6 @@ export class QuizComponent implements OnInit {
   correctAnswersCount: number = 0;
   isAnswered: boolean = false;
   shuffledAnswers: string[] = [];
-
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {

@@ -10,4 +10,5 @@ import { Component, Input } from '@angular/core';
 export class HeroComponent {
   @Input() titleHero: string = "";
   @Input() subtitleHero: string = "";
+  @Input() mainTitleHero: string = "";
 }

@@ -1,0 +1,42 @@
+<app-hero [titleHero]="'Configurez le quiz'"></app-hero>
+<main>
+    <form #configForm="ngForm" (ngSubmit)="onSubmit(configForm)" class="flex flex-col justify-center m-auto gap-2 max-w-[1000px] pl-8 pr-8">
+        <label for="nbr-questions" class=" text-white pt-2">Nombre de questions</label>
+        <input type="number" id="nbr-questions" name="nbr-questions" min="1" max="50" value="10" placeholder="10" required ngModel class="pl-2 pt-3 pb-3 rounded-lg bg-zinc-800 text-white" />
+        <label for="category" class="text-white pt-2">Catégorie</label>
+        <select id="category" name="category" required ngModel class="pl-2 pt-3 pb-3 rounded-lg bg-zinc-800 text-white">
+            <option value="any">Any Category</option>
+            <option value="9">General Knowledge</option>
+            <option value="10">Entertainment: Books</option>
+            <option value="11">Entertainment: Film</option>
+            <option value="12">Entertainment: Music</option>
+            <option value="13">Entertainment: Musicals &amp; Theatres</option>
+            <option value="14">Entertainment: Television</option>
+            <option value="15">Entertainment: Video Games</option>
+            <option value="16">Entertainment: Board Games</option>
+            <option value="17">Science &amp; Nature</option>
+            <option value="18">Science: Computers</option>
+            <option value="19">Science: Mathematics</option>
+            <option value="20">Mythology</option>
+            <option value="21">Sports</option>
+            <option value="22">Geography</option>
+            <option value="23">History</option>
+            <option value="24">Politics</option>
+            <option value="25">Art</option>
+            <option value="26">Celebrities</option>
+            <option value="27">Animals</option>
+            <option value="28">Vehicles</option>
+            <option value="29">Entertainment: Comics</option>
+            <option value="30">Science: Gadgets</option>
+            <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+            <option value="32">Entertainment: Cartoon &amp; Animations</option>
+        </select>
+        <label for="type" class="text-white pt-2">Types de réponses</label>
+        <select id="type" name="type" required ngModel class="pl-2 pt-3 pb-3 rounded-lg bg-zinc-800 text-white">
+			<option value="any">Any Type</option>
+			<option value="multiple">Multiple Choice</option>
+			<option value="boolean">True / False</option>
+		</select>      
+        <input type="submit" value="Envoyer" class="block m-auto pr-7 pl-7 pt-2 pb-2 rounded-full mt-14 cursor-pointer bg-orange-500 text-white transition-all duration-10 hover:scale-90 hover:bg-orange-600" />
+    </form>
+</main>
