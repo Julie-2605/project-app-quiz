@@ -6,7 +6,7 @@ import { AuthentificateComponent } from './components/authentificate/authentific
 import { QuizComponent } from './components/quiz/quiz.component';
 
 export const routes: Routes = [
-    {path: '', component: AppComponent},
+    {path: '', component: AuthentificateComponent},
     {path: 'authentificate', component: AuthentificateComponent},
     {path: 'quiz', component: QuizComponent},
     {path: 'result', component: ResultsComponent},
