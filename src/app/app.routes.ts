@@ -3,11 +3,13 @@ import { Router, RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ResultsComponent } from './components/results/results.component';
 import { AuthentificateComponent } from './components/authentificate/authentificate.component';
+import { ConfigQuizComponent } from './components/config-quiz/config-quiz.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 
 export const routes: Routes = [
     {path: '', component: AuthentificateComponent},
     {path: 'authentificate', component: AuthentificateComponent},
+    {path: 'config-quiz', component: ConfigQuizComponent},
     {path: 'quiz', component: QuizComponent},
     {path: 'result', component: ResultsComponent},
 ];
