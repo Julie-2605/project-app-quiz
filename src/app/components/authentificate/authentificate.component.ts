@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { HeroComponent } from '../templates/hero/hero.component';
 
 @Component({
   standalone: true,
   selector: 'app-authentificate',
-  imports: [],
+  imports: [HeroComponent],
   templateUrl: './authentificate.component.html',
   styleUrl: './authentificate.component.css'
 })
