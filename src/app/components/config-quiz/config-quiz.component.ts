@@ -14,10 +14,10 @@ export class ConfigQuizComponent {
   constructor(private router : Router) {
 
   }
-
   onSubmit (form: NgForm) {
-    if (form.valid) {
-      console.log(form.value);
+      if (form.valid) {
+        localStorage.setItem('quizConfig', JSON.stringify(form.value));
+        this.router.navigate(['/quiz']);
     }
   }
 }

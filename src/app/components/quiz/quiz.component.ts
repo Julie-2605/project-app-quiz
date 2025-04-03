@@ -3,6 +3,8 @@ import { ApiService, ApiResponse } from '../../services/api.service';
 import { NgIf, NgFor } from '@angular/common';
 import { AnswerButtonComponent } from '../templates/button/button.component';
 import { HeroComponent } from '../templates/hero/hero.component';
+import { Router } from '@angular/router';
+
 
 
 function decodeHtml(html: string): string {
@@ -26,7 +28,7 @@ export class QuizComponent implements OnInit {
   correctAnswersCount: number = 0;
   isAnswered: boolean = false;
   shuffledAnswers: string[] = [];
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private router : Router) {}
 
   ngOnInit(): void {
     this.loadQuestions();
@@ -67,10 +69,12 @@ export class QuizComponent implements OnInit {
   }
 
   nextQuestion(): void {
-    if (this.currentQuestionIndex < this.questions.length - 1) {
+    if (this.currentQuestionIndex + 1 >= this.questions.length) {
+      this.router.navigate(['/result']);
+    } else {
       this.currentQuestionIndex++;
-      this.selectedAnswerIndex = null;
       this.isAnswered = false;
+      this.selectedAnswerIndex = null;
       this.shuffleAnswers();
     }
   }

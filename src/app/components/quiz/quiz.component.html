@@ -11,7 +11,7 @@
   
     <!-- Affichage de la question actuelle -->
     <div *ngIf="currentQuestionIndex < questions.length; else resultTemplate">
-        <div class="grid grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
           <ng-container *ngFor="let answer of shuffledAnswers; let j = index">
             <app-button
               [answerText]="decodeText(answer)"

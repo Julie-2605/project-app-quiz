@@ -9,7 +9,7 @@ import { HeroComponent } from './components/templates/hero/hero.component';
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [RouterOutlet, ReactiveFormsModule, QuizComponent, AuthentificateComponent, ResultsComponent, HeroComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
