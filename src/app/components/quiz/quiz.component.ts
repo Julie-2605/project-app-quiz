@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, ApiResponse } from '../../services/api.service';
+import { ApiService } from '../../services/api.service';
 import { NgIf, NgFor } from '@angular/common';
 import { Router } from '@angular/router';
 import { AnswerButtonComponent } from '../templates/button/button.component';
 import { HeroComponent } from '../templates/hero/hero.component';
+import { ApiResponse } from '../../models/api';
 
 
 

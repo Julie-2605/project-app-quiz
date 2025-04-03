@@ -1,7 +1,8 @@
 <app-hero
   [titleHero]="'Question ' + (currentQuestionIndex + 1)"
-  [subtitleHero]="questions?.[currentQuestionIndex]?.category ? decodeText(questions[currentQuestionIndex].category) : ''"
-  [mainTitleHero]="questions?.[currentQuestionIndex]?.question ? decodeText(questions[currentQuestionIndex].question) : ''"
+  [subtitleHero]="decodeText(questions[currentQuestionIndex].category)"
+  [mainTitleHero]="decodeText(questions[currentQuestionIndex].question)"
+  
   
 ></app-hero>
 <div class="container mx-auto p-4">  
