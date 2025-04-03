@@ -4,7 +4,6 @@ import { NgIf, NgFor } from '@angular/common';
 import { Router } from '@angular/router';
 import { AnswerButtonComponent } from '../templates/button/button.component';
 import { HeroComponent } from '../templates/hero/hero.component';
-import { Router } from '@angular/router';
 
 
 
@@ -78,16 +77,12 @@ export class QuizComponent implements OnInit {
 
   nextQuestion(): void {
     if (this.currentQuestionIndex + 1 >= this.questions.length) {
-      this.router.navigate(['/result']);
+      this.router.navigate(['/results']);
     } else {
       this.currentQuestionIndex++;
       this.isAnswered = false;
       this.selectedAnswerIndex = null;
       this.shuffleAnswers();
-    } else {
-      this.router.navigate(['/results'], {
-        queryParams: { score: this.correctAnswersCount, total: this.questions }
-      });
     }
   }
 }
