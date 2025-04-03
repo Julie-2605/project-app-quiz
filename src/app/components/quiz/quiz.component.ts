@@ -37,8 +37,13 @@ export class QuizComponent implements OnInit {
   loadQuestions(): void {
     this.apiService.getQuestions().subscribe({
       next: (data: ApiResponse) => {
+        console.log("Données reçues :", data);
         this.questions = data.results;
-        this.shuffleAnswers();
+        if (this.questions.length > 0) {
+          this.shuffleAnswers();
+        } else {
+          this.errorMessage = "Aucune question trouvée.";
+        }
       },
       error: (error) => {
         this.errorMessage = 'Erreur lors du chargement des questions.';
