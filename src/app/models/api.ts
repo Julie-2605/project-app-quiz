@@ -1,4 +1,4 @@
-// Interface pour la réponse (adaptez selon l'API)
+// Interface pour la réponse
 export interface ApiResponse {
     response_code: number;
     results: QuizQuestion[];
