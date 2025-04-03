@@ -11,7 +11,7 @@ export const routes: Routes = [
     {path: 'authentificate', component: AuthentificateComponent},
     {path: 'config-quiz', component: ConfigQuizComponent},
     {path: 'quiz', component: QuizComponent},
-    {path: 'result', component: ResultsComponent},
+    {path: 'results', component: ResultsComponent},
 ];
 
 @NgModule({

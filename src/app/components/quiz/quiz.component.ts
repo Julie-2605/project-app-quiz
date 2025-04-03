@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, ApiResponse } from '../../services/api.service';
 import { NgIf, NgFor } from '@angular/common';
+import { Router } from '@angular/router';
 import { AnswerButtonComponent } from '../templates/button/button.component';
 import { HeroComponent } from '../templates/hero/hero.component';
 
@@ -26,7 +27,9 @@ export class QuizComponent implements OnInit {
   correctAnswersCount: number = 0;
   isAnswered: boolean = false;
   shuffledAnswers: string[] = [];
-  constructor(private apiService: ApiService) {}
+  constructor(private router: Router, private apiService: ApiService) {
+
+  }
 
   ngOnInit(): void {
     this.loadQuestions();
@@ -72,6 +75,10 @@ export class QuizComponent implements OnInit {
       this.selectedAnswerIndex = null;
       this.isAnswered = false;
       this.shuffleAnswers();
+    } else {
+      this.router.navigate(['/results'], {
+        queryParams: { score: this.correctAnswersCount, total: this.questions }
+      });
     }
   }
 }
