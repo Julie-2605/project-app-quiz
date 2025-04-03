@@ -1,8 +1,8 @@
 <app-hero
+   *ngIf="questions && questions.length > 0"
   [titleHero]="'Question ' + (currentQuestionIndex + 1)"
-  [subtitleHero]="decodeText(questions[currentQuestionIndex].category)"
-  [mainTitleHero]="decodeText(questions[currentQuestionIndex].question)"
-  
+  [subtitleHero]="decodeText(questions[currentQuestionIndex]?.category)"
+  [mainTitleHero]="decodeText(questions[currentQuestionIndex]?.question)">
   
 ></app-hero>
 <div class="container mx-auto p-4">  

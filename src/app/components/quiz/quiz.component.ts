@@ -39,7 +39,10 @@ export class QuizComponent implements OnInit {
     this.apiService.getQuestions().subscribe({
       next: (data: ApiResponse) => {
         console.log("Données reçues :", data);
-        this.questions = data.results; // Récupère les questions depuis l'API.
+        
+        this.questions = data.results;
+        
+        localStorage.setItem('totalQuestions', data.results.length.toString());
         if (this.questions.length > 0) {
           this.shuffleAnswers(); // Mélange les réponses de la première question si des données sont disponibles.
         } else {
@@ -76,7 +79,8 @@ export class QuizComponent implements OnInit {
 
   nextQuestion(): void {
     if (this.currentQuestionIndex + 1 >= this.questions.length) {
-      this.router.navigate(['/results']); // Redirige vers la page des résultats si toutes les questions ont été répondues.
+      localStorage.setItem('quizScore', JSON.stringify(this.correctAnswersCount));
+      this.router.navigate(['/results']);
     } else {
       this.currentQuestionIndex++;
       this.isAnswered = false;

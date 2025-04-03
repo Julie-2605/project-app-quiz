@@ -1,0 +1,45 @@
+{
+    "scores": {
+      "0": [
+        "Félicitations ! Vous avez prouvé que vous pouviez répondre à toutes les questions... Incorrectement. Au moins, vous avez participé ?",
+        "On dirait que vous avez réussi à éviter de répondre correctement à quoi que ce soit. C'est un talent en soi !",
+        "Vous avez atteint un nouveau niveau de performance... Négative. Mais ne vous inquiétez pas, le seul chemin possible est vers le haut !",
+        "Wow, vous avez littéralement inventé de nouvelles réponses, n'est-ce pas ? Originalité récompensée... Pas ici, malheureusement.",
+        "C'est une forme de perfection... Dans l'art de se tromper. Bravo ?"
+      ],
+      "5": [
+        "Vous avez eu quelques coups de chance, dirait-on ? Mais ne vous emballez pas, le hasard ne dure qu'un temps.",
+        "On dirait que vous êtes en train de maîtriser l'art subtil de la presque-réussite. Presque, mais pas tout à fait !",
+        "C'est comme trouver de l'eau dans le désert... Rare et précieux. Mais ça ne fait pas une oasis, hein.",
+        "C'est un peu comme gagner à la loterie... Si la loterie avait des prix de consolation très, très peu intéressants.",
+        "C'est mieux que rien... Mais à peine. On se revoit au prochain quiz, avec un peu plus de révisions ?"
+      ],
+      "8": [
+        "Vous vous rapprochez de la moyenne ! Enfin, si la moyenne était un objectif à éviter à tout prix, bien sûr.",
+        "Vous avez presque réussi à atteindre la barre fatidique des 10/20. Presque... Mais pas de quoi écrire à sa mère.",
+        "C'est le genre de score qui vous donne envie de dire : 'Ça aurait pu être pire !' Et c'est vrai, ça aurait pu.",
+        "C'est comme être à deux pas de la victoire... Si la victoire était de ne pas être trop mauvais, évidemment.",
+        "Vous vous améliorez... Lentement, mais sûrement. À ce rythme, vous serez un expert en 2075 !"
+      ],
+      "10": [
+        "La moyenne, c'est comme le purgatoire des scores. Vous n'êtes ni bon ni mauvais, juste... là.",
+        "Félicitations, vous êtes aussi moyen que la météo un jour de printemps. Ni chaud, ni froid, juste... gris.",
+        "Le score des gens qui se contentent du minimum syndical. Vous n'avez pas échoué, mais vous n'avez pas non plus brillé. C'est ça, le compromis !"
+      ],
+      "12": [
+        "Pas mal, vous avez prouvé que vous pouviez faire mieux que la moyenne... de manière à peine perceptible.",
+        "C'est comme avoir une place en classe éco premium. Vous êtes un peu mieux loti, mais vous êtes toujours coincé dans l'avion.",
+        "Le score des gens qui pensent qu'ils sont au-dessus de la mêlée... alors qu'ils sont juste un peu plus haut dans la mêlée."
+      ],
+      "15": [
+        "Vous avez presque atteint le sommet ! Dommage que le sommet soit un endroit ennuyeux rempli de gens prétentieux.",
+        "C'est comme avoir une Ferrari sans permis de conduire. Vous avez le potentiel, mais il manque quelque chose d'essentiel."
+      ],
+      "20": [
+        "Vous avez réussi le quiz à la perfection ! Maintenant, trouvez-vous un vrai défi, celui-ci était trop facile pour vous.",
+        "C'est comme gagner à un jeu où tout le monde triche, et vous êtes le seul à le savoir. Félicitations, mais restez humble.",
+        "Le score des gens qui ont une vie ennuyeuse et qui compensent en étant excellents aux quiz. On vous voit venir !"
+      ]
+    }
+  }
+  
