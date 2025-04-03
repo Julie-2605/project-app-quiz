@@ -1,9 +1,9 @@
 <app-hero [titleHero]="'Résultat'" [subtitleHero]="subtitleHero"></app-hero>
 <main class="flex flex-col md:justify-center md:items-center gap-4">
     <section class="flex justify-center items-center p-10 ml-8 mr-8  md:w-96 w-95 h-[150px] rounded-lg text-white bg-orange-600">
-        <h4 class="text-3xl font-semibold">Score : <span></span></h4>
+        <h4 class="text-3xl font-semibold">Score : <span> {{ results }}</span></h4>
     </section>
     <section>
-        <p></p>
+        <p class="text-2xl text-white">{{ message }}</p>
     </section>
 </main>

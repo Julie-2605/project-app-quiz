@@ -40,7 +40,10 @@ export class QuizComponent implements OnInit {
     this.apiService.getQuestions().subscribe({
       next: (data: ApiResponse) => {
         console.log("Données reçues :", data);
+        
         this.questions = data.results;
+        
+        localStorage.setItem('totalQuestions', data.results.length.toString());
         if (this.questions.length > 0) {
           this.shuffleAnswers();
         } else {
@@ -77,6 +80,7 @@ export class QuizComponent implements OnInit {
 
   nextQuestion(): void {
     if (this.currentQuestionIndex + 1 >= this.questions.length) {
+      localStorage.setItem('quizScore', JSON.stringify(this.correctAnswersCount));
       this.router.navigate(['/results']);
     } else {
       this.currentQuestionIndex++;
