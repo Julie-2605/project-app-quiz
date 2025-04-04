@@ -1,53 +1,47 @@
-<app-hero
-   *ngIf="questions && questions.length > 0"  
-  [titleHero]="'Question ' + (currentQuestionIndex + 1)"
-  [subtitleHero]="decodeText(questions[currentQuestionIndex]?.category)"
-  [mainTitleHero]="decodeText(questions[currentQuestionIndex]?.question)">
+<app-hero *ngIf="questions && questions.length > 0" [titleHero]="'Question ' + (currentQuestionIndex + 1)"
+    [subtitleHero]="decodeText(questions[currentQuestionIndex]?.category)"
+    [mainTitleHero]="decodeText(questions[currentQuestionIndex]?.question)">
 </app-hero>
 
-<div class="container mx-auto p-4">  
-    <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-      <strong class="font-bold">Erreur !</strong>
-      <span class="block sm:inline">{{ errorMessage }}</span>
+<div class="container mx-auto p-4">
+    <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+        role="alert">
+        <strong class="font-bold">Erreur !</strong>
+        <span class="block sm:inline">{{ errorMessage }}</span>
     </div>
 
     <!-- Affichage de la question actuelle -->
     <div *ngIf="currentQuestionIndex < questions.length; else resultTemplate">
         
         <!-- Si la question est de type "multiple choice", on affiche les cases à cocher -->
-        <div *ngIf="isMultipleChoice(); else singleChoiceTemplate" class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
-            <ng-container *ngFor="let answer of shuffledAnswers">
-                <label class="flex items-center space-x-3 p-4 bg-white rounded-lg shadow-lg cursor-pointer transition-all hover:bg-gray-100">
-                    <input 
-                        type="checkbox" 
-                        [value]="answer" 
-                        [(ngModel)]="selectedAnswers"
-                        (change)="updateMultipleChoiceSelection(answer)"
+        <div *ngIf="isMultipleChoice; else singleChoiceTemplate" class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
+            <ng-container *ngFor="let answer of shuffledAnswers; let j = index">
+                <label
+                    class="flex items-center space-x-3 p-4 bg-white rounded-lg shadow-lg cursor-pointer transition-all hover:bg-gray-100">
+                    <input type="checkbox" [checked]="selectedAnswers.includes(answer)"
+                        (change)="selectAnswer(j, answer)"
                         class="h-5 w-5 text-orange-600 border-gray-300 rounded focus:ring focus:ring-orange-500">
                     <span class="text-lg font-medium text-gray-800">{{ decodeText(answer) }}</span>
                 </label>
             </ng-container>
         </div>
 
+
         <!-- Sinon, on garde les boutons classiques -->
         <ng-template #singleChoiceTemplate>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                 <ng-container *ngFor="let answer of shuffledAnswers; let j = index">
-                    <app-button
-                        [answerText]="decodeText(answer)"
-                        [isSelected]="selectedAnswerIndex === j"
+                    <app-button [answerText]="decodeText(answer)" [isSelected]="selectedAnswerIndex === j"
                         [isCorrect]="answer === questions[currentQuestionIndex].correct_answer"
-                        [isAnswered]="isAnswered"
-                        (answerSelected)="selectAnswer(j, answer)">
+                        [isAnswered]="isAnswered" (answerSelected)="selectAnswer(j, answer)">
                     </app-button>
                 </ng-container>
             </div>
         </ng-template>
 
-        <button 
+        <button
             class="block m-auto pr-7 pl-7 pt-2 pb-2 rounded-full mt-14 cursor-pointer bg-orange-500 text-white transition-all duration-10 hover:scale-90 hover:bg-orange-600"
-            (click)="nextQuestion()" 
-            [disabled]="!isAnswered">
+            (click)="nextQuestion()" [disabled]="!isAnswered">
             Suivant
         </button>
     </div>

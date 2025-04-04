@@ -18,7 +18,7 @@ function decodeHtml(html: string): string {
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.css'],
-  imports: [CommonModule, FormsModule, AnswerButtonComponent, HeroComponent], // ✅ Ajout de CommonModule et FormsModule correctement
+  imports: [CommonModule, FormsModule, AnswerButtonComponent, HeroComponent], // Ajout de CommonModule et FormsModule correctement
 })
 export class QuizComponent implements OnInit {
   questions: any[] = [];
@@ -28,9 +28,10 @@ export class QuizComponent implements OnInit {
   selectedAnswers: string[] = []; // Stocke les réponses sélectionnées pour les questions à choix multiples
   correctAnswersCount: number = 0;
   isAnswered: boolean = false;
+  isMultipleChoice: boolean = false;
   shuffledAnswers: string[] = [];
 
-  constructor(private router: Router, private apiService: ApiService) {}
+  constructor(private router: Router, private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.loadQuestions();
@@ -42,6 +43,7 @@ export class QuizComponent implements OnInit {
         this.questions = data.results;
         localStorage.setItem('totalQuestions', data.results.length.toString());
         if (this.questions.length > 0) {
+          this.checkMultipleChoice();
           this.shuffleAnswers();
         } else {
           this.errorMessage = "Aucune question trouvée.";
@@ -54,50 +56,71 @@ export class QuizComponent implements OnInit {
     });
   }
 
+  checkMultipleChoice(): void {
+    const currentQuestion = this.questions[this.currentQuestionIndex];
+    if (Array.isArray(currentQuestion.correct_answer)) {
+      this.isMultipleChoice = true;
+    } else {
+      this.isMultipleChoice = false;
+    }
+  }
+
   shuffleAnswers(): void {
     const currentQuestion = this.questions[this.currentQuestionIndex];
-    this.shuffledAnswers = [...currentQuestion.incorrect_answers, currentQuestion.correct_answer]
-      .sort(() => Math.random() - 0.5);
+    let allAnswers: string[] = [];
+
+    if (Array.isArray(currentQuestion.correct_answer)) {
+      allAnswers = [...currentQuestion.incorrect_answers, ...currentQuestion.correct_answer];
+    } else {
+      allAnswers = [...currentQuestion.incorrect_answers, currentQuestion.correct_answer];
+    }
+
+    this.shuffledAnswers = allAnswers.sort(() => Math.random() - 0.5);
   }
 
   decodeText(text: string): string {
     return decodeHtml(text);
   }
 
-  isMultipleChoice(): boolean {
-    return this.questions[this.currentQuestionIndex]?.type === 'multiple';
-  }
-
   selectAnswer(index: number, answer: string): void {
-    if (this.isAnswered || this.isMultipleChoice()) return;
-    this.selectedAnswerIndex = index;
-    this.isAnswered = true;
+    if (this.isAnswered) return;
 
-    if (answer === this.questions[this.currentQuestionIndex].correct_answer) {
-      this.correctAnswersCount++;
-    }
-  }
+    const currentQuestion = this.questions[this.currentQuestionIndex];
+    const correctAnswer = currentQuestion.correct_answer;
 
-  updateMultipleChoiceSelection(answer: string): void {
-    if (this.selectedAnswers.includes(answer)) {
-      this.selectedAnswers = this.selectedAnswers.filter(a => a !== answer);
+    if (this.isMultipleChoice) {
+      if (this.selectedAnswers.includes(answer)) {
+        this.selectedAnswers = this.selectedAnswers.filter(a => a !== answer);
+      } else {
+        this.selectedAnswers.push(answer);
+      }
+
+      this.isAnswered = this.selectedAnswers.length > 0;
     } else {
-      this.selectedAnswers.push(answer);
-    }
-    this.isAnswered = this.selectedAnswers.length > 0;
-  }
+      this.selectedAnswerIndex = index;
+      this.isAnswered = true;
 
-  nextQuestion(): void {
-    if (this.isMultipleChoice()) {
-      const correctAnswers = this.questions[this.currentQuestionIndex].correct_answer;
-      const selectedAnswersSorted = [...this.selectedAnswers].sort();
-      const correctAnswersSorted = Array.isArray(correctAnswers) ? [...correctAnswers].sort() : [correctAnswers];
-
-      if (JSON.stringify(selectedAnswersSorted) === JSON.stringify(correctAnswersSorted)) {
+      if (answer === correctAnswer) {
         this.correctAnswersCount++;
       }
     }
 
+  }
+
+  nextQuestion(): void {
+    const currentQuestion = this.questions[this.currentQuestionIndex];
+    const correctAnswer = currentQuestion.correct_answer;
+
+    if (this.isMultipleChoice) {
+      const selectedSorted = [...this.selectedAnswers].sort();
+      const correctSorted = Array.isArray(correctAnswer) ? [...correctAnswer].sort() : [correctAnswer];
+
+      if (JSON.stringify(selectedSorted) === JSON.stringify(correctSorted)) {
+        this.correctAnswersCount++;
+      }
+    }
+
+    // Fin du quiz
     if (this.currentQuestionIndex + 1 >= this.questions.length) {
       localStorage.setItem('quizScore', JSON.stringify(this.correctAnswersCount));
       this.router.navigate(['/results']);
@@ -107,6 +130,7 @@ export class QuizComponent implements OnInit {
       this.selectedAnswerIndex = null;
       this.selectedAnswers = [];
       this.shuffleAnswers();
+      this.checkMultipleChoice();
     }
   }
 }

@@ -14,7 +14,11 @@ export class AuthentificateComponent {
   constructor(private router: Router) {} // Injection du service Router pour gérer la navigation entre les pages.
 
   ngOnInit(): void {
-    //Nettoyage du localStorage
+    this.clearLocalStorage();
+  }
+
+  //Netoyage du LocalStorage
+  clearLocalStorage(): void {
     localStorage.removeItem('totalQuestions');
     localStorage.removeItem('formData');
     localStorage.removeItem('quizScore');
