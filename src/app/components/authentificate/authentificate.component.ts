@@ -13,6 +13,13 @@ import { HeroComponent } from '../templates/hero/hero.component';
 export class AuthentificateComponent {
   constructor(private router: Router) {} // Injection du service Router pour gérer la navigation entre les pages.
 
+  ngOnInit(): void {
+    //Nettoyage du localStorage
+    localStorage.removeItem('totalQuestions');
+    localStorage.removeItem('formData');
+    localStorage.removeItem('quizScore');
+  }
+
   onSubmit(form: NgForm) {
     if (form.valid) {
       // Enregistre les données du formulaire dans le stockage local.
