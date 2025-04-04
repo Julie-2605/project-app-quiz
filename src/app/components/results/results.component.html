@@ -1,10 +1,19 @@
 <app-hero 
-[titleHero]="'Résultat'" 
+[titleHero]="'Résultats'" 
 [subtitleHero]="subtitleHero"
 [mainTitleHero]= "message"
 ></app-hero>
 <main class="flex flex-col md:justify-center md:items-center items-center gap-4">
     <section class="flex justify-center items-center p-10 sm:ml-8 sm:mr-8  md:w-96 sm:w-95 w-[200px] sm:h-[150px] h-[110px] rounded-lg text-white bg-orange-600">
         <h4 class="sm:text-3xl text-xl font-semibold">Score : <span>{{ results }} / 20</span></h4>
+    </section>
+    <section class="fixed bottom-4 right-4">
+        <a 
+        routerLink="/authentificate" 
+        routerLinkActive="active" 
+        aria-current="page"
+        class="flex justify-center items-center p-4 w-48 h-16 rounded-lg text-white bg-orange-600 text-xl font-semibold shadow-lg hover:bg-orange-700 transition-all">
+        Revenir au quiz
+        </a>
     </section>
 </main>

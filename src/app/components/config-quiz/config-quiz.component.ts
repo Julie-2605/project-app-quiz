@@ -19,7 +19,6 @@ export class ConfigQuizComponent {
     if (form.valid) {
       const config = form.value; // Récupère les données du formulaire.
 
-      console.log("Configuration du quiz : ", config); // Affiche la configuration dans la console pour vérification.
 
       this.apiService.setConfig(config); // Envoie la configuration au service API.
 

@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { HeroComponent } from '../templates/hero/hero.component';
 import { ApiService } from '../../services/api.service';
 import resultSentence from '../../../../public/assets/resultSentence.json';
+import { RouterModule } from '@angular/router';
 
 @Component({
   standalone: true, // Composant autonome pouvant être utilisé sans inclusion dans un module Angular.
   selector: 'app-results', // Sélecteur HTML pour intégrer ce composant dans une vue.
-  imports: [HeroComponent], // Dépendance au composant Hero utilisé dans la vue.
+  imports: [HeroComponent, RouterModule], // Dépendance au composant Hero utilisé dans la vue.
   templateUrl: './results.component.html', // Chemin vers la structure visuelle du composant.
   styleUrl: './results.component.css' // Chemin vers les styles CSS associés.
 })
@@ -37,12 +38,9 @@ export class ResultsComponent implements OnInit {
       this.totalQuestions = JSON.parse(storageTotalQuestions);
     }
 
-    console.log(`Total de questions : ${this.totalQuestions}`);
 
     // Calcule le score sur 20 à partir du score brut et du nombre total de questions.
     this.results = this.ratingOn20(this.totalQuestions);
-
-    console.log(`Résultats : ${this.results}`);
 
     // Charge les messages personnalisés en fonction du score.
     this.loadScoreMessages();
