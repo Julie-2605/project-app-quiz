@@ -54,7 +54,6 @@ export class ApiService {
     this.http.get<{ token: string }>('https://opentdb.com/api_token.php?command=request').subscribe({
       next: (response) => {
         localStorage.setItem('quizToken', response.token);
-        console.log("Token récupéré :", response.token); // Log du token récupéré.
       },
       error: (error) => {
         console.error("Erreur lors de la récupération du token :", error); // Log en cas d'erreur.

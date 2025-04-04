@@ -17,7 +17,7 @@ export class AuthentificateComponent {
     if (form.valid) {
       // Enregistre les données du formulaire dans le stockage local.
       localStorage.setItem('formData', JSON.stringify(form.value));
-      console.log('Données enregistrées : ', form.value); // Affiche les données dans la console pour vérification.
+      
 
       // Redirige l'utilisateur vers la page de configuration du quiz après une soumission valide.
       this.router.navigate(['/config-quiz']);

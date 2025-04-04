@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../services/api.service';
-import { NgIf, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiService } from '../../services/api.service';
 import { AnswerButtonComponent } from '../templates/button/button.component';
 import { HeroComponent } from '../templates/hero/hero.component';
 import { ApiResponse } from '../../models/api';
@@ -9,48 +10,45 @@ import { ApiResponse } from '../../models/api';
 function decodeHtml(html: string): string {
   const txt = document.createElement("textarea");
   txt.innerHTML = html;
-  return txt.value; // Fonction utilitaire pour décoder les entités HTML.
+  return txt.value;
 }
 
 @Component({
-  standalone: true, // Composant autonome pouvant être utilisé sans inclusion dans un module Angular.
-  selector: 'app-quiz', // Sélecteur HTML pour intégrer ce composant dans une vue.
-  templateUrl: './quiz.component.html', // Chemin vers la structure visuelle du composant.
-  styleUrls: ['./quiz.component.css'], // Chemin vers les styles CSS associés.
-  imports: [NgIf, NgFor, AnswerButtonComponent, HeroComponent] // Dépendances nécessaires : directives Angular et composants externes.
+  standalone: true,
+  selector: 'app-quiz',
+  templateUrl: './quiz.component.html',
+  styleUrls: ['./quiz.component.css'],
+  imports: [CommonModule, FormsModule, AnswerButtonComponent, HeroComponent], // ✅ Ajout de CommonModule et FormsModule correctement
 })
 export class QuizComponent implements OnInit {
-  questions: any[] = []; // Liste des questions du quiz.
-  errorMessage: string | null = null; // Message d'erreur en cas de problème avec l'API.
-  currentQuestionIndex: number = 0; // Index de la question actuellement affichée.
-  selectedAnswerIndex: number | null = null; // Index de la réponse sélectionnée par l'utilisateur.
-  correctAnswersCount: number = 0; // Nombre de réponses correctes données par l'utilisateur.
-  isAnswered: boolean = false; // Indique si une réponse a été donnée pour la question actuelle.
-  shuffledAnswers: string[] = []; // Réponses mélangées pour la question actuelle.
+  questions: any[] = [];
+  errorMessage: string | null = null;
+  currentQuestionIndex: number = 0;
+  selectedAnswerIndex: number | null = null;
+  selectedAnswers: string[] = []; // Stocke les réponses sélectionnées pour les questions à choix multiples
+  correctAnswersCount: number = 0;
+  isAnswered: boolean = false;
+  shuffledAnswers: string[] = [];
 
-  constructor(private router: Router, private apiService: ApiService) {} 
-  // Injection des services Router pour la navigation et ApiService pour récupérer les données du quiz.
+  constructor(private router: Router, private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.loadQuestions(); // Charge les questions au démarrage du composant.
+    this.loadQuestions();
   }
 
   loadQuestions(): void {
     this.apiService.getQuestions().subscribe({
       next: (data: ApiResponse) => {
-        console.log("Données reçues :", data);
-        
         this.questions = data.results;
-        
         localStorage.setItem('totalQuestions', data.results.length.toString());
         if (this.questions.length > 0) {
-          this.shuffleAnswers(); // Mélange les réponses de la première question si des données sont disponibles.
+          this.shuffleAnswers();
         } else {
-          this.errorMessage = "Aucune question trouvée."; // Message d'erreur si aucune question n'est disponible.
+          this.errorMessage = "Aucune question trouvée.";
         }
       },
       error: (error) => {
-        this.errorMessage = 'Erreur lors du chargement des questions.'; // Message d'erreur en cas de problème avec l'API.
+        this.errorMessage = 'Erreur lors du chargement des questions.';
         console.error('Erreur API :', error);
       }
     });
@@ -59,25 +57,47 @@ export class QuizComponent implements OnInit {
   shuffleAnswers(): void {
     const currentQuestion = this.questions[this.currentQuestionIndex];
     this.shuffledAnswers = [...currentQuestion.incorrect_answers, currentQuestion.correct_answer]
-      .sort(() => Math.random() - 0.5); // Mélange aléatoire des réponses pour éviter un ordre prévisible.
+      .sort(() => Math.random() - 0.5);
   }
 
   decodeText(text: string): string {
-    return decodeHtml(text); // Décodage des entités HTML dans les textes des questions/réponses.
+    return decodeHtml(text);
+  }
+
+  isMultipleChoice(): boolean {
+    return this.questions[this.currentQuestionIndex]?.type === 'multiple';
   }
 
   selectAnswer(index: number, answer: string): void {
-    if (this.isAnswered) return; // Empêche toute interaction après avoir répondu à une question.
-
+    if (this.isAnswered || this.isMultipleChoice()) return;
     this.selectedAnswerIndex = index;
     this.isAnswered = true;
 
     if (answer === this.questions[this.currentQuestionIndex].correct_answer) {
-      this.correctAnswersCount++; // Incrémente le compteur si la réponse est correcte.
+      this.correctAnswersCount++;
     }
   }
 
+  updateMultipleChoiceSelection(answer: string): void {
+    if (this.selectedAnswers.includes(answer)) {
+      this.selectedAnswers = this.selectedAnswers.filter(a => a !== answer);
+    } else {
+      this.selectedAnswers.push(answer);
+    }
+    this.isAnswered = this.selectedAnswers.length > 0;
+  }
+
   nextQuestion(): void {
+    if (this.isMultipleChoice()) {
+      const correctAnswers = this.questions[this.currentQuestionIndex].correct_answer;
+      const selectedAnswersSorted = [...this.selectedAnswers].sort();
+      const correctAnswersSorted = Array.isArray(correctAnswers) ? [...correctAnswers].sort() : [correctAnswers];
+
+      if (JSON.stringify(selectedAnswersSorted) === JSON.stringify(correctAnswersSorted)) {
+        this.correctAnswersCount++;
+      }
+    }
+
     if (this.currentQuestionIndex + 1 >= this.questions.length) {
       localStorage.setItem('quizScore', JSON.stringify(this.correctAnswersCount));
       this.router.navigate(['/results']);
@@ -85,7 +105,8 @@ export class QuizComponent implements OnInit {
       this.currentQuestionIndex++;
       this.isAnswered = false;
       this.selectedAnswerIndex = null;
-      this.shuffleAnswers(); // Prépare les réponses mélangées pour la prochaine question.
+      this.selectedAnswers = [];
+      this.shuffleAnswers();
     }
   }
 }
